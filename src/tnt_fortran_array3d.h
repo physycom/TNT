@@ -54,10 +54,10 @@ class Fortran_Array3D
 	       Fortran_Array3D(int m, int n, int k);
 	       Fortran_Array3D(int m, int n, int k,  T *a);
 	       Fortran_Array3D(int m, int n, int k, const T &a);
-    inline Fortran_Array3D(const Fortran_Array3D &A);
+    inline Fortran_Array3D(const Fortran_Array3D<T> &A);
 	inline Fortran_Array3D & operator=(const T &a);
-	inline Fortran_Array3D & operator=(const Fortran_Array3D &A);
-	inline Fortran_Array3D & ref(const Fortran_Array3D &A);
+	inline Fortran_Array3D & operator=(const Fortran_Array3D<T> &A);
+	inline Fortran_Array3D & ref(const Fortran_Array3D<T> &A);
 	       Fortran_Array3D copy() const;
 		   Fortran_Array3D & inject(const Fortran_Array3D & A);
 	inline T& operator()(int i, int j, int k);

@@ -33,6 +33,8 @@ inline static double seconds(void)
     return ( (double) clock() ) * secs_per_tick;
 }
 
+
+
 class Stopwatch {
     private:
         int running_;

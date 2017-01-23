@@ -71,7 +71,9 @@ class Array1D
 	         Array1D copy() const;
 		     Array1D & inject(const Array1D & A);
 	inline   T& operator[](int i);
+	inline   T& operator()(int i);
 	inline   const T& operator[](int i) const;
+	inline   const T& operator()(int i) const;
 	inline 	 int dim1() const;
 	inline   int dim() const;
               ~Array1D();
@@ -99,7 +101,6 @@ Array1D<T>::Array1D(const Array1D<T> &A) : v_(A.v_),  n_(A.n_),
 #endif
 
 }
-
 
 template <class T>
 Array1D<T>::Array1D(int n) : v_(n), n_(n), data_(v_.begin())
@@ -160,6 +161,28 @@ inline const T& Array1D<T>::operator[](int i) const
 	assert(i < n_);
 #endif
 	return data_[i]; 
+}
+
+
+
+template <class T>
+inline T& Array1D<T>::operator()(int i) 
+{ 
+#ifdef TNT_BOUNDS_CHECK
+	assert(i>= 0);
+	assert(i < n_);
+#endif
+	return data_[i-1]; 
+}
+
+template <class T>
+inline const T& Array1D<T>::operator()(int i) const 
+{ 
+#ifdef TNT_BOUNDS_CHECK
+	assert(i>= 0);
+	assert(i < n_);
+#endif
+	return data_[i-1]; 
 }
 
 
@@ -235,7 +258,7 @@ inline int Array1D<T>::ref_count() const
 template <class T>
 inline Array1D<T> Array1D<T>::subarray(int i0, int i1)
 {
-	if ((i0 > 0) && (i1 < n_) || (i0 <= i1))
+	if ((i0 >= 0) && (i1 < n_) || (i0 <= i1))
 	{
 		Array1D<T> X(*this);  /* create a new instance of this array. */
 		X.n_ = i1-i0+1;

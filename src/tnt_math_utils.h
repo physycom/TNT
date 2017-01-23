@@ -1,13 +1,16 @@
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
 
-/* needed for fabs, sqrt() below */
+
+/* needed for abs(), sqrt() below */
 #include <cmath>
 
 
 
 namespace TNT
 {
+
+using namespace std;
 /**
 	@returns hypotenuse of real (non-complex) scalars a and b by 
 	avoiding underflow/overflow
@@ -23,7 +26,7 @@ Real hypot(const Real &a, const Real &b)
 	else
 	{
 		Real c = b/a;
-		return fabs(a) * sqrt(1 + c*c);
+		return abs(a) * sqrt(1 + c*c);
 	}
 }
 } /* TNT namespace */

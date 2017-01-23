@@ -26,10 +26,10 @@
 //---------------------------------------------------------------------
 
 
-#define TNT_MAJOR_VERSION    '1'
-#define TNT_MINOR_VERSION    '2'
-#define TNT_SUBMINOR_VERSION '6'
-#define TNT_VERSION_STRING "1.2.6"
+#define TNT_MAJOR_VERSION    '3'
+#define TNT_MINOR_VERSION    '0'
+#define TNT_SUBMINOR_VERSION '12'
+#define TNT_VERSION_STRING "3.0.12"
 
 
 

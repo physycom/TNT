@@ -80,7 +80,7 @@ class Array3D
 };
 
 template <class T>
-Array3D<T>::Array3D() : data_(), v_(), m_(0), n_(0) {}
+Array3D<T>::Array3D() : data_(), v_(), m_(0), n_(0), g_(0) {}
 
 template <class T>
 Array3D<T>::Array3D(const Array3D<T> &A) : data_(A.data_), 

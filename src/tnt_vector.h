@@ -19,25 +19,31 @@
 
 
 
-#ifndef TNT_VEC_H
-#define TNT_VEC_H
+#ifndef TNT_VECTOR_H
+#define TNT_VECTOR_H
 
 #include "tnt_subscript.h"
 #include <cstdlib>
 #include <cassert>
 #include <iostream>
 #include <sstream>
+#include <cmath>
+
+using namespace std;
 
 namespace TNT
 {
 
+//namespace Linear_Algebra
+// {
+
+
 /**
- <b>[Deprecatred]</b>  Value-based vector class from pre-1.0
- 	TNT version.  Kept here for backward compatiblity, but should
-	use the newer TNT::Array1D classes instead.
+  
+	Linear algebra vector: uses * for dot-product, copies by value, uses both
+		[0] and (1) based indexing.
 
 */
-
 template <class T>
 class Vector 
 {
@@ -56,7 +62,7 @@ class Vector
 
     Subscript lbound() const { return 1;}
  
-  protected:
+  private:
     T* v_;                  
     T* vm1_;        // pointer adjustment for optimzied 1-offset indexing
     Subscript n_;
@@ -152,6 +158,9 @@ class Vector
     iterator end()   { return v_ + n_; }
     const iterator begin() const { return v_;}
     const iterator end() const  { return v_ + n_; }
+
+		operator const T* const() { return v_; } 
+		operator T*() { return v_; }
 
     // destructor
 
@@ -349,6 +358,22 @@ Vector<T> operator+(const Vector<T> &A,
 }
 
 template <class T>
+Vector<T> operator+=(Vector<T> &A, 
+    const Vector<T> &B)
+{
+    Subscript N = A.dim();
+
+    assert(N==B.dim());
+
+    Subscript i;
+
+    for (i=0; i<N; i++)
+            A[i] += B[i];
+
+    return A;
+}
+
+template <class T>
 Vector<T> operator-(const Vector<T> &A, 
     const Vector<T> &B)
 {
@@ -366,8 +391,26 @@ Vector<T> operator-(const Vector<T> &A,
 }
 
 template <class T>
-Vector<T> operator*(const Vector<T> &A, 
+Vector<T> operator-=(Vector<T> &A, 
     const Vector<T> &B)
+{
+    Subscript N = A.dim();
+
+    assert(N==B.dim());
+
+    Subscript i;
+
+    for (i=0; i<N; i++)
+            A[i] -= B[i];
+
+    return A;
+}
+
+
+
+
+template <class T>
+Vector<T> elementwise_mult(const Vector<T> &A, const Vector<T> &B)
 {
     Subscript N = A.dim();
 
@@ -381,6 +424,19 @@ Vector<T> operator*(const Vector<T> &A,
 
     return tmp;
 }
+
+
+template <class T>
+double norm(const Vector<T> &A)
+{
+	Subscript N = A.dim();
+
+	double sum = 0.0;
+	for (int i=0; i<N; i++)
+		sum +=  abs(A[i])*abs(A[i]);
+	return sqrt(sum);
+}
+
 
 
 template <class T>
@@ -398,7 +454,42 @@ T dot_prod(const Vector<T> &A, const Vector<T> &B)
     return sum;
 }
 
+template <class T>
+inline T dot_product(const Vector<T> &A, const Vector<T> &B)
+{
+	return dot_prod(A, B);
+}
+
+
+template <class T>
+inline T operator*(const Vector<T> &A, 
+    const Vector<T> &B)
+{
+    return dot_prod(A,B);
+}
+
+
+template <class T>
+Vector<T> operator*(const T &a, const Vector<T> &A)
+{
+	Subscript N = A.dim();
+	Vector<T> r(N);
+
+	for (int i=0; i<N; i++)
+		r[i] = A[i] * a;
+
+	return r;
+}
+
+template <class T>
+inline Vector<T> operator*(const Vector<T> &A, const T& a)
+{
+	return a * A;
+}
+
+//}   /* namspace TNT::Linear_Algebra */
 }   /* namespace TNT */
 
+
 #endif
-// TNT_VEC_H
+// TNT_VECTOR_H
